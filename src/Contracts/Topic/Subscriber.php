@@ -1,30 +1,12 @@
 <?php
 
-namespace Dna\RabbitMq\Contracts;
+namespace Dna\RabbitMq\Contracts\Topic;
 
 use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Connection\AbstractConnection;
 
-/**
- * Subscriber Class in RabbitMq Pub/Sub Pattern
- * 발행자/구독자 패턴의 구독자 클래스
- */
-abstract class TopicSubscriber
+abstract class Subscriber extends Client
 {
-    protected $req_queue_name = '';
-    protected $exchange_name  = 'dna';
-    protected $vhost          = '/';
-    
-    /**
-     * @var PhpAmqpLib\Connection\AbstractConnection
-     */
-    protected $connection;
-
-    /**
-     * @var PhpAmqpLib\Channel\AbstractChannel
-     */
-    protected $channel;
-
     /**
      * Implementing Process using Template Pattern.
      * 템플릿 패턴을 이용해 절차 구현
@@ -37,11 +19,7 @@ abstract class TopicSubscriber
      */
     protected function init(){
         
-        $this->connection = $this->initConnection();
-        $this->channel    = $this->connection->channel();
-        
-        $this->declareExchange();
-        $this->declareQueue();
+        parent::init();
 
         $route_keys = $this->bindRouteKeys();
         
@@ -53,27 +31,6 @@ abstract class TopicSubscriber
             );
         }
         
-    }
-
-    /**
-     * initializing and return $this->connection
-     * @return PhpAmqpLib\Connection\AbstractConnection $connection
-     */
-    abstract protected function initConnection() : AbstractConnection;
-
-    protected function declareExchange()
-    {
-        $this->channel->exchange_declare(
-            $this->exchange_name,
-            'topic',
-            false, false, false
-        );
-    }
-
-    protected function declareQueue()
-    {
-        list($this->queue_name, ,) = 
-        $this->channel->queue_declare($this->req_queue_name, false, false, true, false);
     }
 
     /**
@@ -125,11 +82,4 @@ abstract class TopicSubscriber
         }
     }
 
-    public function close(){
-        if($this->channel)
-            $this->channel->close();
-
-        if($this->connection)
-            $this->connection->close();
-    }
 }
