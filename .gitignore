@@ -18,3 +18,7 @@ composer.phar
 
 
 # End of https://www.gitignore.io/api/composer,visualstudiocode
+
+dev/*
+cacert-2018-06-20.pem
+src/Tmp
