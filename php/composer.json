@@ -8,6 +8,11 @@
             "email": "garam-park@naver.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Dna\\RabbitMq\\":"src"
+        }
+    },
     "require": {
         "php-amqplib/php-amqplib": "^2.7"
     }
