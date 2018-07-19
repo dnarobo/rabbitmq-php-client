@@ -1,6 +1,6 @@
 <?php
 
-namespace Dna\RabbitMq\Simples;
+namespace Dna\RabbitMq\Examples;
 
 use Dna\RabbitMq\Contracts\TopicSubscriber as BaseSubscriber;
 
