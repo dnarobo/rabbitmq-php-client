@@ -1,5 +1,5 @@
 {
-    "name": "dna/rabbitmq-client",
+    "name": "dnarobo/rabbitmq-client",
     "type": "library",
     "license": "MIT",
     "authors": [
