@@ -1,6 +1,6 @@
 <?php
 
-namespace Dna\RabbitMq\Contracts\Topic;
+namespace Dna\RabbitMq\Contracts;
 use  PhpAmqpLib\Connection\AbstractConnection;
 abstract class Client
 {
