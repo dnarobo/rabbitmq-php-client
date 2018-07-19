@@ -3,12 +3,13 @@
 namespace Dna\RabbitMq\Contracts;
 
 use PhpAmqpLib\Message\AMQPMessage;
+use PhpAmqpLib\Connection\AbstractConnection;
 
 /**
  * Subscriber Class in RabbitMq Pub/Sub Pattern
  * 발행자/구독자 패턴의 구독자 클래스
  */
-abstract class Subscriber
+abstract class TopicSubscriber
 {
     protected $req_queue_name = '';
     protected $exchange_name  = 'dna';
@@ -44,7 +45,7 @@ abstract class Subscriber
 
         $route_keys = $this->bindRouteKeys();
         
-        foreach ($route_keys as $route_key) {
+        foreach ($route_keys as $binding_key) {
             $this->channel->queue_bind(
                 $this->queue_name,
                 $this->exchange_name,
@@ -58,7 +59,7 @@ abstract class Subscriber
      * initializing and return $this->connection
      * @return PhpAmqpLib\Connection\AbstractConnection $connection
      */
-    abstract protected function initConnection();
+    abstract protected function initConnection() : AbstractConnection;
 
     protected function declareExchange()
     {
@@ -78,7 +79,7 @@ abstract class Subscriber
     /**
      * @return iterable of string
      */
-    abstract protected function bindRouteKeys();
+    abstract protected function bindRouteKeys() : array;
     
     abstract protected function handle(AMQPMessage $msg);
 
@@ -97,8 +98,8 @@ abstract class Subscriber
         $exclusive = false,
         $nowait = false,
         $ticket = null,
-        $arguments = [],
-        $consumer_tag = ''
+        $consumer_tag = '',
+        $arguments = []
     ){
         
         $this->init();
@@ -115,6 +116,7 @@ abstract class Subscriber
             function(AMQPMessage $msg) use ($client) {
                 $client->handle($msg);
             },
+            $ticket = null,
             $arguments
         );
 
