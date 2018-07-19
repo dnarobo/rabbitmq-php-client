@@ -1,0 +1,12 @@
+{
+    "name": "dna/rabbitmq-client",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "garam park",
+            "email": "garam-park@naver.com"
+        }
+    ],
+    "require": {}
+}
