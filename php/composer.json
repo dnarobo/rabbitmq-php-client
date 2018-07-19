@@ -8,5 +8,7 @@
             "email": "garam-park@naver.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php-amqplib/php-amqplib": "^2.7"
+    }
 }
